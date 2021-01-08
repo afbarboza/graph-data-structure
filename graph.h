@@ -1,8 +1,8 @@
 /*
- * graph.h
+ *  graph.h - graph type data structure manipulation interface
  *
- *  Created on: 7 de jan. de 2021
- *      Author: alex
+ *  Created on: 07 de dez. de 2020
+ *  Author: Alex Barboza
  */
 
 #ifndef GRAPH_H_

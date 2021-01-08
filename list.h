@@ -1,8 +1,9 @@
 /*
- * list
+ *  list.h - interface for manipulation of adjacency
+ *  list for graph data structures
  *
  *  Created on: 30 de dez. de 2020
- *      Author: alex
+ *  Author: Alex Barboza
  */
 
 #ifndef LIST_H_

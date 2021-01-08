@@ -1,3 +1,11 @@
+/*
+ *  list.c - implementation of double linked list
+ *  used at graph data structure
+ *
+ *  Created on: 30 de dez. de 2020
+ *  Author: Alex Barboza
+ */
+
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
