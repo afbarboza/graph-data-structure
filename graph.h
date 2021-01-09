@@ -46,4 +46,6 @@ bool edge_exists(vertex_t *u, vertex_t *v, graph_t *graph);
 
 void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph);
 
+void inspect_graph(graph_t *graph, void (*print_vertex)(vertex_t *vertex));
+
 #endif /* GRAPH_H_ */

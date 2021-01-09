@@ -149,3 +149,26 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 		}
 	}
 }
+
+void inspect_graph(graph_t *graph, void (*print_vertex)(vertex_t *vertex))
+{
+	int i = 0;
+		vertex_t **vertices = graph->vertices;
+
+		for (i = 0; i < graph->number_vertices; i++) {
+			vertex_t *tmp = vertices[i];
+			(*print_vertex)(tmp);
+
+			adjacency_list_t *list = tmp->list;
+			adjacency_list_node_t *neighbor = list->head;
+			while (neighbor != NULL) {
+				int neighbor_index = neighbor->vertex_array_index;
+				(*print_vertex)(vertices[neighbor_index]);
+				neighbor = neighbor->next;
+			}
+			printf("\n");
+		}
+
+		printf("number of nodes: %d\n", graph->number_vertices);
+		printf("number of edges: %d\n", graph->number_edges);
+}

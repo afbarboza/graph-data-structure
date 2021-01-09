@@ -5,27 +5,9 @@
 #include "list.h"
 #include "graph.h"
 
-void inspect_graph(graph_t *graph)
+void print_vertex(vertex_t *vertex)
 {
-	int i = 0;
-	vertex_t **vertices = graph->vertices;
-
-	for (i = 0; i < graph->number_vertices; i++) {
-		vertex_t *tmp = vertices[i];
-		printf("[%s]: \t", (char *) tmp->data);
-
-		adjacency_list_t *list = tmp->list;
-		adjacency_list_node_t *neighbor = list->head;
-		while (neighbor != NULL) {
-			int neighbor_index = neighbor->vertex_array_index;
-			printf("%s    ", (char *) vertices[neighbor_index]->data);
-			neighbor = neighbor->next;
-		}
-		printf("\n");
-	}
-
-	printf("number of nodes: %d\n", graph->number_vertices);
-	printf("number of edges: %d\n", graph->number_edges);
+	printf("%s | ", (char *) vertex->data);
 }
 
 int main(void)
@@ -91,7 +73,7 @@ int main(void)
 	edge_insert(v9, v6, graph);
 
 	/* inspect the graph */
-	inspect_graph(graph);
+	inspect_graph(graph, &print_vertex);
 
 	/* remove elements */
 
