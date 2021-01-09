@@ -89,10 +89,12 @@ void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph)
 	/* make v adjacent to u */
 	adjacency_list_node_t *node_v = node_create(v->array_index, INT_MAX);
 	add_node_to_list(node_v, list_u);
+	u->degree = list_u->size;
 
 	/* make u adjacent to v */
 	adjacency_list_node_t *node_u = node_create(u->array_index, INT_MAX);
 	add_node_to_list(node_u, list_v);
+	v->degree = list_v->size;
 
 	graph->number_edges++;
 }
@@ -122,8 +124,8 @@ bool edge_exists(vertex_t *u, vertex_t *v, graph_t *graph)
 	}
 
 	if (u_is_connected_to_v == false && v_is_connected_to_u == true) {
-			fprintf(stderr, "ERROR: inconsistency found while probing for edges\n");
-			exit(EXIT_FAILURE);
+		fprintf(stderr, "ERROR: inconsistency found while probing for edges\n");
+		exit(EXIT_FAILURE);
 	}
 
 	return (u_is_connected_to_v && v_is_connected_to_u);
@@ -139,6 +141,7 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 	while (adjacent_to_u != NULL) {
 		if (adjacent_to_u->vertex_array_index == v->array_index) {
 			remove_vertex_from_list(v->array_index, list_u);
+			u->degree = list_u->size;
 		}
 
 		adjacent_to_u = adjacent_to_u->next;
@@ -148,6 +151,7 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 	while (adjacent_to_v != NULL) {
 		if (adjacent_to_v->vertex_array_index == u->array_index) {
 			remove_vertex_from_list(u->array_index, list_v);
+			v->degree = list_v->size;
 			graph->number_edges--;
 		}
 
@@ -158,22 +162,23 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 void inspect_graph(graph_t *graph, void (*print_vertex)(vertex_t *vertex))
 {
 	int i = 0;
-		vertex_t **vertices = graph->vertices;
+	vertex_t **vertices = graph->vertices;
 
-		for (i = 0; i < graph->number_vertices; i++) {
-			vertex_t *tmp = vertices[i];
-			(*print_vertex)(tmp);
+	for (i = 0; i < graph->number_vertices; i++) {
+		vertex_t *tmp = vertices[i];
+		(*print_vertex)(tmp);
 
-			adjacency_list_t *list = tmp->list;
-			adjacency_list_node_t *neighbor = list->head;
-			while (neighbor != NULL) {
-				int neighbor_index = neighbor->vertex_array_index;
-				(*print_vertex)(vertices[neighbor_index]);
-				neighbor = neighbor->next;
-			}
-			printf("\n");
+		adjacency_list_t *list = tmp->list;
+		adjacency_list_node_t *neighbor = list->head;
+		while (neighbor != NULL) {
+			int neighbor_index = neighbor->vertex_array_index;
+			(*print_vertex)(vertices[neighbor_index]);
+			neighbor = neighbor->next;
 		}
 
-		printf("number of nodes: %d\n", graph->number_vertices);
-		printf("number of edges: %d\n", graph->number_edges);
+		printf(" (degree of %d)\n", tmp->degree);
+	}
+
+	printf("number of nodes: %d\n", graph->number_vertices);
+	printf("number of edges: %d\n", graph->number_edges);
 }
