@@ -19,6 +19,7 @@ struct vertex_t {
 	adjacency_list_t *list;
 	int degree;
 	int array_index;
+	void *data;
 };
 
 struct graph_t {
@@ -33,7 +34,7 @@ void graph_free(graph_t *graph);
 
 void graph_print(graph_t *graph);
 
-vertex_t *vertex_create();
+vertex_t *vertex_create(void *data);
 
 void vertex_insert_at_graph(vertex_t *vertex, graph_t *graph);
 

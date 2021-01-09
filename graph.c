@@ -20,12 +20,13 @@ graph_t *graph_create()
 	return new_graph;
 }
 
-vertex_t *vertex_create()
+vertex_t *vertex_create(void *data)
 {
 	vertex_t *new_vertex = (vertex_t *) malloc(sizeof(vertex_t));
 	new_vertex->list = list_create();
 	new_vertex->degree = 0;
 	new_vertex->array_index = -1;
+	new_vertex->data = data;
 	return new_vertex;
 }
 
@@ -67,20 +68,22 @@ void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph)
 	adjacency_list_t *list_v = v->list;
 
 	/*we cannot allow multigraphs here  */
-	adjacency_list_node_t *adjacent_to_u = u->list->head;
+	adjacency_list_node_t *adjacent_to_u = list_u->head;
 	while (adjacent_to_u != NULL) {
 		if (adjacent_to_u->vertex_array_index == v->array_index) {
 			fprintf(stderr, "ERROR: parallel edges are not allowed in the current implementation\n");
 			return;
 		}
+		adjacent_to_u = adjacent_to_u->next;
 	}
 
-	adjacency_list_node_t *adjacent_to_v = v->list->head;
+	adjacency_list_node_t *adjacent_to_v = list_v->head;
 	while (adjacent_to_v != NULL) {
 		if (adjacent_to_v->vertex_array_index == u->array_index) {
 			fprintf(stderr, "ERROR: parallel edges are not allowed in the current implementation\n");
 			return;
 		}
+		adjacent_to_v = adjacent_to_v->next;
 	}
 
 	/* make v adjacent to u */
@@ -90,6 +93,8 @@ void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph)
 	/* make u adjacent to v */
 	adjacency_list_node_t *node_u = node_create(u->array_index, INT_MAX);
 	add_node_to_list(node_u, list_v);
+
+	graph->number_edges++;
 }
 
 bool edge_exists(vertex_t *u, vertex_t *v, graph_t *graph)
