@@ -140,13 +140,18 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 		if (adjacent_to_u->vertex_array_index == v->array_index) {
 			remove_vertex_from_list(v->array_index, list_u);
 		}
+
+		adjacent_to_u = adjacent_to_u->next;
 	}
 
 	adjacency_list_node_t *adjacent_to_v = list_v->head;
 	while (adjacent_to_v != NULL) {
 		if (adjacent_to_v->vertex_array_index == u->array_index) {
 			remove_vertex_from_list(u->array_index, list_v);
+			graph->number_edges--;
 		}
+
+		adjacent_to_v = adjacent_to_v->next;
 	}
 }
 

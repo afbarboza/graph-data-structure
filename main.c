@@ -76,8 +76,14 @@ int main(void)
 	inspect_graph(graph, &print_vertex);
 
 	/* remove elements */
+	edge_remove(v6, v1, graph);
+	edge_remove(v6, v3, graph);
+	edge_remove(v6, v4, graph);
+	edge_remove(v6, v9, graph);
+	edge_remove(v9, v6, graph);
 
 	/* inspect graph */
+	inspect_graph(graph, &print_vertex);
 
 	return 0;
 }
