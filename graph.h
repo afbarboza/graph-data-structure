@@ -40,6 +40,8 @@ void vertex_insert_at_graph(vertex_t *vertex, graph_t *graph);
 
 vertex_t **vertex_adjacent(vertex_t *v, graph_t *graph);
 
+void vertex_free(vertex_t *vertex);
+
 void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph);
 
 bool edge_exists(vertex_t *u, vertex_t *v, graph_t *graph);

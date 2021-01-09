@@ -40,4 +40,6 @@ void print_list(adjacency_list_t *list);
 
 int list_size(adjacency_list_t *list);
 
+void list_free(adjacency_list_t *list);
+
 #endif /* LIST_H_ */

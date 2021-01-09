@@ -61,6 +61,12 @@ vertex_t **vertex_adjacent(vertex_t *v, graph_t *graph)
 	return adjacent_vertices;
 }
 
+void vertex_free(vertex_t *vertex)
+{
+	list_free(vertex->list);
+	free(vertex);
+}
+
 void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph)
 {
 	/* get reference to the list */
@@ -181,4 +187,17 @@ void inspect_graph(graph_t *graph, void (*print_vertex)(vertex_t *vertex))
 
 	printf("number of nodes: %d\n", graph->number_vertices);
 	printf("number of edges: %d\n", graph->number_edges);
+}
+
+void graph_free(graph_t *graph)
+{
+	int i = 0;
+	int number_vertices = graph->number_vertices;
+
+	for (i = 0; i < number_vertices; i++) {
+		vertex_free(graph->vertices[i]);
+	}
+
+	free(graph->vertices);
+	free(graph);
 }

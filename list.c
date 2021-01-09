@@ -150,3 +150,17 @@ int list_size(adjacency_list_t *list)
 {
 	return list->size;
 }
+
+void list_free(adjacency_list_t *list)
+{
+	adjacency_list_node_t *tmp = NULL;
+	adjacency_list_node_t *node = list->tail;
+
+	while (node != NULL) {
+		tmp = node->previous;
+		free(node);
+		node = tmp;
+	}
+
+	free(list);
+}

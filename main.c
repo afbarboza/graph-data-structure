@@ -85,5 +85,7 @@ int main(void)
 	/* inspect graph */
 	inspect_graph(graph, &print_vertex);
 
+	graph_free(graph);
+
 	return 0;
 }
