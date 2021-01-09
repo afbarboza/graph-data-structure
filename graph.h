@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include "list.h"
 
 typedef struct vertex_t vertex_t;
 typedef struct graph_t graph_t;
@@ -17,10 +18,11 @@ typedef struct graph_t graph_t;
 struct vertex_t {
 	adjacency_list_t *list;
 	int degree;
+	int array_index;
 };
 
 struct graph_t {
-	vertex_t *vertices;
+	vertex_t **vertices;
 	int number_edges;
 	int number_vertices;
 };
@@ -35,7 +37,7 @@ vertex_t *vertex_create();
 
 void vertex_insert_at_graph(vertex_t *vertex, graph_t *graph);
 
-vertex_t *vertex_adjacent(vertex_t *v, graph_t *graph);
+vertex_t **vertex_adjacent(vertex_t *v, graph_t *graph);
 
 void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph);
 
