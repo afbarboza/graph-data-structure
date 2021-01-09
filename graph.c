@@ -89,12 +89,12 @@ void edge_insert(vertex_t *u, vertex_t *v, graph_t *graph)
 	/* make v adjacent to u */
 	adjacency_list_node_t *node_v = node_create(v->array_index, INT_MAX);
 	add_node_to_list(node_v, list_u);
-	u->degree = list_u->size;
+	u->degree = list_size(list_u);
 
 	/* make u adjacent to v */
 	adjacency_list_node_t *node_u = node_create(u->array_index, INT_MAX);
 	add_node_to_list(node_u, list_v);
-	v->degree = list_v->size;
+	v->degree = list_size(list_v);
 
 	graph->number_edges++;
 }
@@ -141,7 +141,7 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 	while (adjacent_to_u != NULL) {
 		if (adjacent_to_u->vertex_array_index == v->array_index) {
 			remove_vertex_from_list(v->array_index, list_u);
-			u->degree = list_u->size;
+			u->degree = list_size(list_u);
 		}
 
 		adjacent_to_u = adjacent_to_u->next;
@@ -151,7 +151,7 @@ void edge_remove(vertex_t *u, vertex_t *v, graph_t *graph)
 	while (adjacent_to_v != NULL) {
 		if (adjacent_to_v->vertex_array_index == u->array_index) {
 			remove_vertex_from_list(u->array_index, list_v);
-			v->degree = list_v->size;
+			v->degree = list_size(list_v);
 			graph->number_edges--;
 		}
 
