@@ -2,8 +2,23 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 #include "list.h"
 #include "graph.h"
+#include "queue.h"
+
+typedef struct vertex_data_t vertex_data_t;
+
+struct vertex_data_t {
+	bool visited;
+	char *label;
+};
+
+void print_element(void *data)
+{
+	int *value = (int *) data;
+	printf(" %d  ", *value);
+}
 
 void print_vertex(vertex_t *vertex)
 {
@@ -12,80 +27,25 @@ void print_vertex(vertex_t *vertex)
 
 int main(void)
 {
-	/* create graph */
-	graph_t *graph = graph_create();
+	int i = 0;
+	queue_t *queue = queue_create();
 
-	/* create vertices */
-	vertex_t *v1 = vertex_create("1");
-	vertex_t *v2 = vertex_create("2");
-	vertex_t *v3 = vertex_create("3");
-	vertex_t *v4 = vertex_create("4");
-	vertex_t *v5 = vertex_create("5");
-	vertex_t *v6 = vertex_create("6");
-	vertex_t *v7 = vertex_create("7");
-	vertex_t *v9 = vertex_create("9");
+	srand(time(NULL));
+	for (i = 0; i < 30; i++) {
+		int *data = (int *) malloc(sizeof(int));
+		*data = rand() % 100;
+		printf("%d inserting %d\n", i, *data);
+		queue_insert(queue, data);
+	}
 
-	/* insert vertices in graph */
-	vertex_insert_at_graph(v1, graph);
-	vertex_insert_at_graph(v2, graph);
-	vertex_insert_at_graph(v3, graph);
-	vertex_insert_at_graph(v4, graph);
-	vertex_insert_at_graph(v5, graph);
-	vertex_insert_at_graph(v6, graph);
-	vertex_insert_at_graph(v7, graph);
-	vertex_insert_at_graph(v9, graph);
+	for (i = 0; i < 30; i++) {
+		int *data = (int *) queue_remove(queue);
+		print_element(data);
+		free(data);
+		printf(" [%d] \n", queue->size);
+	}
 
-	/* create the edges */
-	edge_insert(v1, v5, graph);
-	edge_insert(v1, v4, graph);
-	edge_insert(v1, v6, graph);
-	edge_insert(v1, v3, graph);
-	edge_insert(v1, v7, graph);
-
-	edge_insert(v2, v9, graph);
-	edge_insert(v2, v5, graph);
-	edge_insert(v2, v7, graph);
-
-	edge_insert(v3, v1, graph);
-	edge_insert(v3, v7, graph);
-	edge_insert(v3, v6, graph);
-
-	edge_insert(v4, v6, graph);
-	edge_insert(v4, v5, graph);
-	edge_insert(v4, v1, graph);
-
-	edge_insert(v5, v2, graph);
-	edge_insert(v5, v7, graph);
-	edge_insert(v5, v4, graph);
-	edge_insert(v5, v1, graph);
-
-	edge_insert(v6, v1, graph);
-	edge_insert(v6, v3, graph);
-	edge_insert(v6, v4, graph);
-	edge_insert(v6, v9, graph);
-
-	edge_insert(v7, v5, graph);
-	edge_insert(v7, v2, graph);
-	edge_insert(v7, v1, graph);
-	edge_insert(v7, v3, graph);
-
-	edge_insert(v9, v2, graph);
-	edge_insert(v9, v6, graph);
-
-	/* inspect the graph */
-	inspect_graph(graph, &print_vertex);
-
-	/* remove elements */
-	edge_remove(v6, v1, graph);
-	edge_remove(v6, v3, graph);
-	edge_remove(v6, v4, graph);
-	edge_remove(v6, v9, graph);
-	edge_remove(v9, v6, graph);
-
-	/* inspect graph */
-	inspect_graph(graph, &print_vertex);
-
-	graph_free(graph);
+	queue_free(queue);
 
 	return 0;
 }
